@@ -8,6 +8,7 @@ namespace Snake
         static void Main()
         {
             Snake snake = new Snake();
+            Food.GenerateFood();
 
             while (true)
             {
@@ -30,14 +31,29 @@ namespace Snake
                         case 'd':
                             snake.Move(Directions.Right);
                             break;
+
+                        case 'g':
+                            snake.Grow();
+                            break;
+
+                        case 'f':
+                            Food.GenerateFood();
+                            break;
                     }
                 }
 
                 Console.Clear();
-                snake.Move(snake.HeadDirection);
+                snake.Move(snake.Direction, true);
                 snake.Draw();
                 Thread.Sleep(snake.FrameRate);
             }
+        }
+
+        public static void Quit(string msg)
+        {
+            Console.SetCursorPosition((Console.WindowWidth - msg.Length) / 2, Console.WindowHeight / 2);
+            Console.WriteLine(msg);
+            Environment.Exit(0);
         }
     }
 }
