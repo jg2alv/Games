@@ -8,9 +8,7 @@ namespace Games.Snake
     {
         private (int X, int Y) _coordinates = (Console.WindowWidth / 2, Console.WindowHeight / 2);
         private List<Node> _body = new List<Node>();
-        public static int Unit = 1 + (2 - 1) * (Console.WindowHeight - 1) / (Console.WindowWidth - 1);
         public Directions Direction { get; private set; } = Directions.Right;
-        public int Size { get => this._body.Count; }
 
         public Snake()
         {
@@ -39,13 +37,13 @@ namespace Games.Snake
             // If it's LEFT, remove one unit on X
             // If it's RIGHT, add one unit on X
             if (direction == Directions.Up)
-                this._coordinates.Y -= Snake.Unit;
+                this._coordinates.Y -= Program.Unit;
             else if (direction == Directions.Down)
-                this._coordinates.Y += Snake.Unit;
+                this._coordinates.Y += Program.Unit;
             else if (direction == Directions.Left)
-                this._coordinates.X -= Snake.Unit;
+                this._coordinates.X -= Program.Unit;
             else
-                this._coordinates.X += Snake.Unit;
+                this._coordinates.X += Program.Unit;
 
             // Setting the new direction;
             // For every node, add the new direction to the direction-coordinate change list
@@ -109,13 +107,13 @@ namespace Games.Snake
 
             // Calculating X and Y position of new grown node on the grid
             if (baseDirection == Directions.Up)
-                coordinates = (baseCoordinates.X, baseCoordinates.Y - Snake.Unit);
+                coordinates = (baseCoordinates.X, baseCoordinates.Y - Program.Unit);
             else if (baseDirection == Directions.Down)
-                coordinates = (baseCoordinates.X, baseCoordinates.Y + Snake.Unit);
+                coordinates = (baseCoordinates.X, baseCoordinates.Y + Program.Unit);
             else if (baseDirection == Directions.Right)
-                coordinates = (baseCoordinates.X - Snake.Unit, baseCoordinates.Y);
+                coordinates = (baseCoordinates.X - Program.Unit, baseCoordinates.Y);
             else
-                coordinates = (baseCoordinates.X + Snake.Unit, baseCoordinates.Y);
+                coordinates = (baseCoordinates.X + Program.Unit, baseCoordinates.Y);
 
             // Creating the new node, adding it to the node list & fastening frame-rate
             Node n = new Node(this.Direction, coordinates);
