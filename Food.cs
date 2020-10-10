@@ -13,6 +13,14 @@ namespace Snake
             Food.DisplayedFood = this;
         }
 
+        public void Draw()
+        {
+            // Drawing the food (if any)
+            if (Food.DisplayedFood == null) return;
+            Console.SetCursorPosition(Food.DisplayedFood.Coordinates.X, Food.DisplayedFood.Coordinates.Y);
+            Console.Write('◽');
+        }
+
         public static bool IsThereFoodHere((int X, int Y) coordinates) => Food.DisplayedFood != null && Food.DisplayedFood.Coordinates.X == coordinates.X && Food.DisplayedFood.Coordinates.Y == coordinates.Y;
 
         public static void GenerateFood()
