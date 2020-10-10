@@ -26,13 +26,13 @@ namespace Games.Snake
             this.Direction = this.GetNewDirection() ?? this.Direction;
 
             if (this.Direction == Directions.Up)
-                this.Coordinates.Y -= Snake.Unit;
+                this.Coordinates.Y -= Program.Unit;
             else if (this.Direction == Directions.Down)
-                this.Coordinates.Y += Snake.Unit;
+                this.Coordinates.Y += Program.Unit;
             else if (this.Direction == Directions.Left)
-                this.Coordinates.X -= Snake.Unit;
+                this.Coordinates.X -= Program.Unit;
             else
-                this.Coordinates.X += Snake.Unit;
+                this.Coordinates.X += Program.Unit;
         }
 
         private Directions? GetNewDirection()

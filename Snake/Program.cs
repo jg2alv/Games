@@ -6,6 +6,7 @@ namespace Games.Snake
     class Program
     {
         public static int FrameRate = 500;
+        public static int Unit = 1 + (2 - 1) * (Console.WindowHeight - 1) / (Console.WindowWidth - 1);
 
         static void Main()
         {
