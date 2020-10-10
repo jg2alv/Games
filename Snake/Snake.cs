@@ -70,6 +70,7 @@ namespace Games.Snake
             if (!Food.IsThereFoodHere(this._coordinates)) return;
 
             Food.DisplayedFood = null;
+            Food.GenerateFood();
             this.Grow();
         }
 
