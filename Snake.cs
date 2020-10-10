@@ -110,13 +110,10 @@ namespace Snake
             else
                 coordinates = (baseCoordinates.X + Snake.Unit, baseCoordinates.Y);
 
-            // Creating the new node and adding it to the node list
+            // Creating the new node, adding it to the node list & fastening frame-rate
             Node n = new Node(this.Direction, coordinates);
             this._body.Add(n);
-
-            // 50% chance of making the game go faster
-            if (new Random().Next(1, 3) % 2 == 0)
-                this.FrameRate = (int)(this.FrameRate * 0.9);
+            this.FrameRate = (int)(this.FrameRate * 0.9);
 
             // Set the cursor to the position of the new grown node
             Console.SetCursorPosition(baseCoordinates.X, baseCoordinates.Y);
