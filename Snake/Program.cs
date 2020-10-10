@@ -5,6 +5,8 @@ namespace Games.Snake
 {
     class Program
     {
+        public static int FrameRate = 500;
+
         static void Main()
         {
             Snake snake = new Snake();
@@ -46,12 +48,13 @@ namespace Games.Snake
                 snake.Move(snake.Direction, true);
                 snake.Draw();
                 Food.Draw();
-                Thread.Sleep(snake.FrameRate);
+                Thread.Sleep(Program.FrameRate);
             }
         }
 
         public static void Quit(string msg)
         {
+            Console.Clear();
             Console.SetCursorPosition((Console.WindowWidth - msg.Length) / 2, Console.WindowHeight / 2);
             Console.WriteLine(msg);
             Environment.Exit(0);
