@@ -11,7 +11,6 @@ namespace Games.Snake
         public static int Unit = 1 + (2 - 1) * (Console.WindowHeight - 1) / (Console.WindowWidth - 1);
         public Directions Direction { get; private set; } = Directions.Right;
         public int Size { get => this._body.Count; }
-        public int FrameRate = 500;
 
         public Snake()
         {
@@ -79,7 +78,14 @@ namespace Games.Snake
             // Drawing every node on screen
             this._body.ForEach(n =>
             {
-                Console.SetCursorPosition(n.Coordinates.X, n.Coordinates.Y);
+                try
+                {
+                    Console.SetCursorPosition(n.Coordinates.X, n.Coordinates.Y);
+                }
+                catch (Exception)
+                {
+                    Program.Quit("SOMETHING WENT WRONG :(");
+                }
                 Console.Write(n.Char);
             });
         }
@@ -114,7 +120,7 @@ namespace Games.Snake
             // Creating the new node, adding it to the node list & fastening frame-rate
             Node n = new Node(this.Direction, coordinates);
             this._body.Add(n);
-            this.FrameRate = (int)(this.FrameRate * 0.9);
+            Program.FrameRate = (int)(Program.FrameRate * 0.9);
 
             // Set the cursor to the position of the new grown node
             Console.SetCursorPosition(baseCoordinates.X, baseCoordinates.Y);
