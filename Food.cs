@@ -13,7 +13,7 @@ namespace Snake
             Food.DisplayedFood = this;
         }
 
-        public void Draw()
+        public static void Draw()
         {
             // Drawing the food (if any)
             if (Food.DisplayedFood == null) return;
@@ -25,6 +25,7 @@ namespace Snake
 
         public static void GenerateFood()
         {
+            // Drawing food randomly on screen
             Random random = new Random();
             int x = random.Next(1, Console.WindowWidth + 1),
                 y = random.Next(1, Console.WindowHeight + 1);
