@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Snake
+namespace Games.Snake
 {
     class Node
     {

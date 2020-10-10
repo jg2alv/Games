@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace Snake
+namespace Games.Snake
 {
     class Snake
     {

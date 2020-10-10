@@ -1,4 +1,4 @@
-namespace Snake
+namespace Games.Snake
 {
     enum Directions
     {

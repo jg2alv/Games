@@ -1,6 +1,6 @@
 using System;
 
-namespace Snake
+namespace Games.Snake
 {
     class Food
     {
