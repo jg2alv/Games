@@ -45,6 +45,7 @@ namespace Snake
                 Console.Clear();
                 snake.Move(snake.Direction, true);
                 snake.Draw();
+                Food.Draw();
                 Thread.Sleep(snake.FrameRate);
             }
         }
