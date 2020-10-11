@@ -2,32 +2,32 @@ using System;
 
 namespace Games.SpaceInvaders
 {
-    class Player
+    static class Player
     {
-        private int _x = Console.WindowWidth / 2;
+        private static int X = Console.WindowWidth / 2;
 
-        public void Draw()
+        public static void Draw()
         {
-            Console.SetCursorPosition(this._x, (int)(Console.WindowHeight * 0.9));
+            Console.SetCursorPosition(Player.X, (int)(Console.WindowHeight * 0.9));
             Console.Write('■');
-            Console.SetCursorPosition(this._x + Program.Unit, (int)(Console.WindowHeight * 0.9));
+            Console.SetCursorPosition(Player.X + Program.Unit, (int)(Console.WindowHeight * 0.9));
             Console.Write('■');
-            Console.SetCursorPosition(this._x - Program.Unit, (int)(Console.WindowHeight * 0.9));
+            Console.SetCursorPosition(Player.X - Program.Unit, (int)(Console.WindowHeight * 0.9));
             Console.Write('■');
-            Console.SetCursorPosition(this._x + 2 * Program.Unit, (int)(Console.WindowHeight * 0.9));
+            Console.SetCursorPosition(Player.X + 2 * Program.Unit, (int)(Console.WindowHeight * 0.9));
             Console.Write('■');
-            Console.SetCursorPosition(this._x - 2 * Program.Unit, (int)(Console.WindowHeight * 0.9));
+            Console.SetCursorPosition(Player.X - 2 * Program.Unit, (int)(Console.WindowHeight * 0.9));
             Console.Write('■');
         }
 
-        public void Move(Directions direction)
+        public static void Move(Directions direction)
         {
-            this._x += (int)direction;
+            Player.X += (int)direction;
         }
 
-        public void Shoot()
+        public static void Shoot()
         {
-            Bullet bullet = new Bullet((this._x, (int)(Console.WindowHeight * 0.9) - Program.Unit));
+            Bullet bullet = new Bullet((Player.X, (int)(Console.WindowHeight * 0.9) - Program.Unit));
         }
     }
 }
