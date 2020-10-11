@@ -6,8 +6,9 @@ namespace Games.SpaceInvaders
 {
     class Program
     {
-        public static int FrameRate = 500;
+        public static int FrameRate = 1;
         public static int Unit = 1 + (2 - 1) * (Console.WindowHeight - 1) / (Console.WindowWidth - 1);
+        private static ulong FRAMES = 0;
 
         static void Main()
         {
@@ -35,7 +36,14 @@ namespace Games.SpaceInvaders
 
                 Console.Clear();
                 player.Draw();
+
+                if (Program.FRAMES % 250 == 0)
+                    Bullet.Move();
+
+                Bullet.Draw();
                 Console.SetCursorPosition(0, 0);
+                Program.FRAMES++;
+
                 Thread.Sleep(Program.FrameRate);
             }
         }
