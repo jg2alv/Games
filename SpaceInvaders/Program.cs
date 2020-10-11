@@ -49,6 +49,9 @@ namespace Games.SpaceInvaders
                     Invader.Move();
                 }
 
+                if (Program.FRAMES % 1000 == 0)
+                    new Invader();
+
                 Console.SetCursorPosition(0, 0);
                 Program.FRAMES++;
 
