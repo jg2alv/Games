@@ -22,12 +22,12 @@ namespace Games.SpaceInvaders
 
         public void Move(Directions direction)
         {
-
+            this._x += (int)direction;
         }
 
         public void Shoot()
         {
-
+            Bullet bullet = new Bullet((this._x, (int)(Console.WindowHeight * 0.9) - Program.Unit));
         }
     }
 }
