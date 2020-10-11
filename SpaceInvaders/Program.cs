@@ -7,12 +7,14 @@ namespace Games.SpaceInvaders
     class Program
     {
         private static ulong FRAMES = 0;
+        private static int Score = 0;
         public static int Unit = 1 + (2 - 1) * (Console.WindowHeight - 1) / (Console.WindowWidth - 1);
-        public static int Score = 0;
 
         static void Main()
         {
-            int score = Program.Score;
+            new Invader();
+            new Invader();
+            new Invader();
 
             while (true)
             {
@@ -36,14 +38,17 @@ namespace Games.SpaceInvaders
 
                 Console.Clear();
                 Player.Draw();
+                Invader.Draw();
+                Bullet.Draw();
 
                 if (Program.FRAMES % 250 == 0)
+                {
+                    Program.DrawScore();
                     Bullet.Move();
+                    Invader.Shoot();
+                    Invader.Move();
+                }
 
-                if (score != Program.Score)
-                    Program.UpdateScore(ref score);
-
-                Bullet.Draw();
                 Console.SetCursorPosition(0, 0);
                 Program.FRAMES++;
 
@@ -51,12 +56,12 @@ namespace Games.SpaceInvaders
             }
         }
 
-        public static void UpdateScore(ref int score)
+        public static void DrawScore()
         {
             Console.SetCursorPosition((int)(Console.WindowWidth * 0.99) - Program.Score.ToString().Length, (int)(Console.WindowHeight * 0.01));
             Console.Write(Program.Score);
-
-            score = Program.Score;
         }
+
+        public static void AddToScore() => Program.Score++;
     }
 }
