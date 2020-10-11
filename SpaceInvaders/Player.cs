@@ -25,6 +25,5 @@ namespace Games.SpaceInvaders
         public static void Move(Directions direction) => Player.X += (int)direction;
         public static void Shoot() => new Bullet((Player.X, Player.Y - Program.Unit));
         public static bool WasHit((int X, int Y) coordinates) => (coordinates.X == Player.X || coordinates.X == Player.X - 1 || coordinates.X == Player.X - 2 || coordinates.X == Player.X + 1 || coordinates.X == Player.X + 2) && coordinates.Y == Player.Y;
-
     }
 }
