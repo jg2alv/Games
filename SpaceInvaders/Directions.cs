@@ -2,7 +2,7 @@ namespace Games.SpaceInvaders
 {
     enum Directions
     {
-        Left,
-        Right
+        Left = -1,
+        Right = 1
     }
 }
