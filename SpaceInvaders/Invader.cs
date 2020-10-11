@@ -5,6 +5,7 @@ namespace Games.SpaceInvaders
 {
     class Invader
     {
+        private Directions _direction = Directions.Right;
         public int X { get; private set; }
         public static int Y = (int)(Console.WindowHeight * 0.1);
         public static List<Invader> InvaderList = new List<Invader>();
@@ -19,7 +20,13 @@ namespace Games.SpaceInvaders
         {
             Invader.InvaderList.ForEach(i =>
             {
-                i.X = new Random().Next(3, Console.WindowWidth);
+                if(i.X == Console.WindowWidth)
+                    i._direction = Directions.Left;
+
+                if(i.X == 0)
+                    i._direction = Directions.Right;
+
+                i.X += (int)i._direction;
             });
         }
 
@@ -48,7 +55,7 @@ namespace Games.SpaceInvaders
         {
             Invader.InvaderList.ForEach(i =>
             {
-                if (new Random().Next(0, 10) == 0) return;
+                if (new Random().Next(0, 10) != 0) return;
                 new Bullet((i.X, Invader.Y), Spaceship.Invader);
             });
         }
