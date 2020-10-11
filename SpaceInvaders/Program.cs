@@ -6,13 +6,13 @@ namespace Games.SpaceInvaders
 {
     class Program
     {
-        public static int FrameRate = 1;
-        public static int Unit = 1 + (2 - 1) * (Console.WindowHeight - 1) / (Console.WindowWidth - 1);
         private static ulong FRAMES = 0;
+        public static int Unit = 1 + (2 - 1) * (Console.WindowHeight - 1) / (Console.WindowWidth - 1);
+        public static int Score = 0;
 
         static void Main()
         {
-            Player player = new Player();
+            int score = Program.Score;
 
             while (true)
             {
@@ -21,31 +21,42 @@ namespace Games.SpaceInvaders
                     switch (Console.ReadKey(true).KeyChar)
                     {
                         case 'a':
-                            player.Move(Directions.Left);
+                            Player.Move(Directions.Left);
                             break;
 
                         case 'd':
-                            player.Move(Directions.Right);
+                            Player.Move(Directions.Right);
                             break;
 
                         case ' ':
-                            player.Shoot();
+                            Player.Shoot();
                             break;
                     }
                 }
 
                 Console.Clear();
-                player.Draw();
+                Player.Draw();
 
                 if (Program.FRAMES % 250 == 0)
                     Bullet.Move();
+
+                if (score != Program.Score)
+                    Program.UpdateScore(ref score);
 
                 Bullet.Draw();
                 Console.SetCursorPosition(0, 0);
                 Program.FRAMES++;
 
-                Thread.Sleep(Program.FrameRate);
+                Thread.Sleep(1);
             }
+        }
+
+        public static void UpdateScore(ref int score)
+        {
+            Console.SetCursorPosition((int)(Console.WindowWidth * 0.99) - Program.Score.ToString().Length, (int)(Console.WindowHeight * 0.01));
+            Console.Write(Program.Score);
+
+            score = Program.Score;
         }
     }
 }
