@@ -8,16 +8,15 @@ namespace Games.Chess
         // Default board
         private Piece[,] _board = new Piece[8, 8]
         {
-            { new Piece("R", 2, Players.White), new Piece("K", 3, Players.White), new Piece("B", 3, Players.White), new Piece("Q", 4, Players.White), new Piece("K", 5, Players.White), new Piece("B", 3, Players.White), new Piece("K", 3, Players.White), new Piece("R", 2, Players.White) },
-            { new Piece("P", 1, Players.White), new Piece("P", 1, Players.White), new Piece("P", 1, Players.White), new Piece("P", 1, Players.White), new Piece("P", 1, Players.White), new Piece("P", 1, Players.White), new Piece("P", 1, Players.White), new Piece("P", 1, Players.White) },
-            { new Piece(" ", 2, Players.Empty), new Piece(" ", 3, Players.Empty), new Piece(" ", 3, Players.Empty), new Piece(" ", 4, Players.Empty), new Piece(" ", 5, Players.Empty), new Piece(" ", 3, Players.Empty), new Piece(" ", 3, Players.Empty), new Piece(" ", 2, Players.Empty) },
-            { new Piece(" ", 1, Players.Empty), new Piece(" ", 1, Players.Empty), new Piece(" ", 1, Players.Empty), new Piece(" ", 1, Players.Empty), new Piece(" ", 1, Players.Empty), new Piece(" ", 1, Players.Empty), new Piece(" ", 1, Players.Empty), new Piece(" ", 1, Players.Empty) },
-            { new Piece(" ", 2, Players.Empty), new Piece(" ", 3, Players.Empty), new Piece(" ", 3, Players.Empty), new Piece(" ", 4, Players.Empty), new Piece(" ", 5, Players.Empty), new Piece(" ", 3, Players.Empty), new Piece(" ", 3, Players.Empty), new Piece(" ", 2, Players.Empty) },
-            { new Piece(" ", 1, Players.White), new Piece(" ", 1, Players.White), new Piece(" ", 1, Players.White), new Piece(" ", 1, Players.White), new Piece(" ", 1, Players.White), new Piece(" ", 1, Players.White), new Piece(" ", 1, Players.White), new Piece(" ", 1, Players.White) },
-            { new Piece("P", 1, Players.Black), new Piece("P", 1, Players.Black), new Piece("P", 1, Players.Black), new Piece("P", 1, Players.Black), new Piece("P", 1, Players.Black), new Piece("P", 1, Players.Black), new Piece("P", 1, Players.Black), new Piece("P", 1, Players.Black) },
-            { new Piece("R", 2, Players.Black), new Piece("K", 3, Players.Black), new Piece("B", 3, Players.Black), new Piece("K", 5, Players.Black), new Piece("Q", 4, Players.Black), new Piece("B", 3, Players.Black), new Piece("K", 3, Players.Black), new Piece("R", 2, Players.Black) }
+            { new Piece(Pieces.Rook, Players.White, (0, 0)), new Piece(Pieces.Cnight, Players.White, (0, 1)), new Piece(Pieces.Bishop, Players.White, (0, 2)), new Piece(Pieces.Queen, Players.White, (0, 3)), new Piece(Pieces.King, Players.White, (0, 4)), new Piece(Pieces.Bishop, Players.White, (0, 5)), new Piece(Pieces.Cnight, Players.White, (0, 6)), new Piece(Pieces.Rook, Players.White, (0, 7)) },
+            { new Piece(Pieces.Pawn, Players.White, (1, 0)), new Piece(Pieces.Pawn, Players.White, (1, 1)), new Piece(Pieces.Pawn, Players.White, (1, 2)), new Piece(Pieces.Pawn, Players.White, (1, 3)), new Piece(Pieces.Pawn, Players.White, (1, 4)), new Piece(Pieces.Pawn, Players.White, (1, 5)), new Piece(Pieces.Pawn, Players.White, (1, 6)), new Piece(Pieces.Pawn, Players.White, (1, 7)) },
+            { new Piece(Pieces.Empty, Players.Empty, (2, 0)), new Piece(Pieces.Empty, Players.Empty, (2, 1)), new Piece(Pieces.Empty, Players.Empty, (2, 2)), new Piece(Pieces.Empty, Players.Empty, (2, 3)), new Piece(Pieces.Empty, Players.Empty, (2, 4)), new Piece(Pieces.Empty, Players.Empty, (2, 5)), new Piece(Pieces.Empty, Players.Empty, (2, 6)), new Piece(Pieces.Empty, Players.Empty, (2, 7)) },
+            { new Piece(Pieces.Empty, Players.Empty, (3, 0)), new Piece(Pieces.Empty, Players.Empty, (3, 1)), new Piece(Pieces.Empty, Players.Empty, (3, 2)), new Piece(Pieces.Empty, Players.Empty, (3, 3)), new Piece(Pieces.Empty, Players.Empty, (3, 4)), new Piece(Pieces.Empty, Players.Empty, (3, 5)), new Piece(Pieces.Empty, Players.Empty, (3, 6)), new Piece(Pieces.Empty, Players.Empty, (3, 7)) },
+            { new Piece(Pieces.Empty, Players.Empty, (4, 0)), new Piece(Pieces.Empty, Players.Empty, (4, 1)), new Piece(Pieces.Empty, Players.Empty, (4, 2)), new Piece(Pieces.Empty, Players.Empty, (4, 3)), new Piece(Pieces.Empty, Players.Empty, (4, 4)), new Piece(Pieces.Empty, Players.Empty, (4, 5)), new Piece(Pieces.Empty, Players.Empty, (4, 6)), new Piece(Pieces.Empty, Players.Empty, (4, 7)) },
+            { new Piece(Pieces.Empty, Players.Empty, (5, 0)), new Piece(Pieces.Empty, Players.Empty, (5, 1)), new Piece(Pieces.Empty, Players.Empty, (5, 2)), new Piece(Pieces.Empty, Players.Empty, (5, 3)), new Piece(Pieces.Empty, Players.Empty, (5, 4)), new Piece(Pieces.Empty, Players.Empty, (5, 5)), new Piece(Pieces.Empty, Players.Empty, (5, 6)), new Piece(Pieces.Empty, Players.Empty, (5, 7)) },
+            { new Piece(Pieces.Pawn, Players.Black, (6, 0)), new Piece(Pieces.Pawn, Players.Black, (6, 1)), new Piece(Pieces.Pawn, Players.Black, (6, 2)), new Piece(Pieces.Pawn, Players.Black, (6, 3)), new Piece(Pieces.Pawn, Players.Black, (6, 4)), new Piece(Pieces.Pawn, Players.Black, (6, 5)), new Piece(Pieces.Pawn, Players.Black, (6, 6)), new Piece(Pieces.Pawn, Players.Black, (6, 7)) },
+            { new Piece(Pieces.Rook, Players.Black, (7, 0)), new Piece(Pieces.Cnight, Players.Black, (7, 1)), new Piece(Pieces.Bishop, Players.Black, (7, 2)), new Piece(Pieces.King, Players.Black, (7, 3)), new Piece(Pieces.Queen, Players.Black, (7, 4)), new Piece(Pieces.Bishop, Players.Black, (7, 5)), new Piece(Pieces.Cnight, Players.Black, (7, 6)), new Piece(Pieces.Rook, Players.Black, (7, 7)) }
         };
-
 
         public void Draw()
         {
@@ -44,7 +43,7 @@ namespace Games.Chess
                 Console.Write($"    {r + 1}");
             }
 
-            Console.WriteLine("\n|---|---|---|---|---|---|---|---|");
+            Console.WriteLine("\n|---|---|---|---|---|---|---|---|\n");
         }
 
 
@@ -58,13 +57,13 @@ namespace Games.Chess
             Console.BackgroundColor = p.Selected ? ConsoleColor.Yellow : Console.BackgroundColor;
         }
 
-        public bool IsPlayable((int r, int c) coord) => this[coord.r, coord.c].Owner == Players.Empty;
+        public static bool IsEmpty((int r, int c) coord, Board b) => b[coord.r, coord.c].Owner == Players.Empty;
 
-        public (int, int) GetInput(string prompt, bool checkIfHouseIsEmpty = true)
+        public (int, int) GetInput(string prompt, bool allowEmptyHouses = false)
         {
             while (true)
             {
-                Console.WriteLine(prompt);
+                Console.Write(prompt);
                 string rowcol = Console.ReadLine();
                 if (new Regex(@"^[0-9][0-9]$").Matches(rowcol).Count == 0)
                 {
@@ -73,13 +72,16 @@ namespace Games.Chess
                 }
 
                 char[] rc = rowcol.ToCharArray();
-                (int r, int c) res = (Convert.ToInt32(rc[0]), Convert.ToInt32(rc[1]));
+                (int r, int c) res = (Convert.ToInt32(rc[0].ToString()) - 1, Convert.ToInt32(rc[1].ToString()) - 1);
 
-                if(checkIfHouseIsEmpty && !this.IsPlayable(res))
+                if(res.r > 7 || res.c > 7 || (!allowEmptyHouses && Board.IsEmpty(res, this)) || (this[res.r, res.c].Owner != Program.Player && this[res.r, res.c].Owner != Players.Empty))
                 {
                     Console.WriteLine("Please, enter the coordinates of a playable house.");
                     continue;
                 }
+
+                if(!allowEmptyHouses)
+                    this[res.r, res.c].Selected = true;
 
                 return res;
             }
@@ -87,13 +89,27 @@ namespace Games.Chess
 
         public void Play((int r, int c) from)
         {
-            (int r, int c) to = this.GetInput("> Select a house to move the selected piece (in yellow) to in RowCol format (e.g 15 = row 1 and col 5): ", false);
+            while (true)
+            {
+                (int r, int c) to = this.GetInput("> Select a house to move the selected piece (in yellow) to in RowCol format: ", true);
+                Piece sel = this[from.r, from.c];
+
+                if (!sel.CanMoveTo(to, this))
+                {
+                    Console.WriteLine("Please, enter the coordinates of a house where the piece can land.");
+                    continue;
+                }
+
+                sel.Move(to, this);
+                sel.Selected = false;
+                return;
+            }
         }
 
         public Piece this[int r, int c]
         {
             get => this._board[r, c];
-            private set => this._board[r, c] = value;
+            set => this._board[r, c] = value;
         }
     }
 }
