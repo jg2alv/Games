@@ -6,110 +6,148 @@ namespace Games.Chess
     class Board
     {
         // Default board
-        private Piece[,] _board = new Piece[8, 8]
+        private Piece[] _board = new Piece[64];
+
+        public Board()
         {
-            { new Piece(Pieces.Rook, Players.White, (0, 0)), new Piece(Pieces.Cnight, Players.White, (0, 1)), new Piece(Pieces.Bishop, Players.White, (0, 2)), new Piece(Pieces.Queen, Players.White, (0, 3)), new Piece(Pieces.King, Players.White, (0, 4)), new Piece(Pieces.Bishop, Players.White, (0, 5)), new Piece(Pieces.Cnight, Players.White, (0, 6)), new Piece(Pieces.Rook, Players.White, (0, 7)) },
-            { new Piece(Pieces.Pawn, Players.White, (1, 0)), new Piece(Pieces.Pawn, Players.White, (1, 1)), new Piece(Pieces.Pawn, Players.White, (1, 2)), new Piece(Pieces.Pawn, Players.White, (1, 3)), new Piece(Pieces.Pawn, Players.White, (1, 4)), new Piece(Pieces.Pawn, Players.White, (1, 5)), new Piece(Pieces.Pawn, Players.White, (1, 6)), new Piece(Pieces.Pawn, Players.White, (1, 7)) },
-            { new Piece(Pieces.Empty, Players.Empty, (2, 0)), new Piece(Pieces.Empty, Players.Empty, (2, 1)), new Piece(Pieces.Empty, Players.Empty, (2, 2)), new Piece(Pieces.Empty, Players.Empty, (2, 3)), new Piece(Pieces.Empty, Players.Empty, (2, 4)), new Piece(Pieces.Empty, Players.Empty, (2, 5)), new Piece(Pieces.Empty, Players.Empty, (2, 6)), new Piece(Pieces.Empty, Players.Empty, (2, 7)) },
-            { new Piece(Pieces.Empty, Players.Empty, (3, 0)), new Piece(Pieces.Empty, Players.Empty, (3, 1)), new Piece(Pieces.Empty, Players.Empty, (3, 2)), new Piece(Pieces.Empty, Players.Empty, (3, 3)), new Piece(Pieces.Empty, Players.Empty, (3, 4)), new Piece(Pieces.Empty, Players.Empty, (3, 5)), new Piece(Pieces.Empty, Players.Empty, (3, 6)), new Piece(Pieces.Empty, Players.Empty, (3, 7)) },
-            { new Piece(Pieces.Empty, Players.Empty, (4, 0)), new Piece(Pieces.Empty, Players.Empty, (4, 1)), new Piece(Pieces.Empty, Players.Empty, (4, 2)), new Piece(Pieces.Empty, Players.Empty, (4, 3)), new Piece(Pieces.Empty, Players.Empty, (4, 4)), new Piece(Pieces.Empty, Players.Empty, (4, 5)), new Piece(Pieces.Empty, Players.Empty, (4, 6)), new Piece(Pieces.Empty, Players.Empty, (4, 7)) },
-            { new Piece(Pieces.Empty, Players.Empty, (5, 0)), new Piece(Pieces.Empty, Players.Empty, (5, 1)), new Piece(Pieces.Empty, Players.Empty, (5, 2)), new Piece(Pieces.Empty, Players.Empty, (5, 3)), new Piece(Pieces.Empty, Players.Empty, (5, 4)), new Piece(Pieces.Empty, Players.Empty, (5, 5)), new Piece(Pieces.Empty, Players.Empty, (5, 6)), new Piece(Pieces.Empty, Players.Empty, (5, 7)) },
-            { new Piece(Pieces.Pawn, Players.Black, (6, 0)), new Piece(Pieces.Pawn, Players.Black, (6, 1)), new Piece(Pieces.Pawn, Players.Black, (6, 2)), new Piece(Pieces.Pawn, Players.Black, (6, 3)), new Piece(Pieces.Pawn, Players.Black, (6, 4)), new Piece(Pieces.Pawn, Players.Black, (6, 5)), new Piece(Pieces.Pawn, Players.Black, (6, 6)), new Piece(Pieces.Pawn, Players.Black, (6, 7)) },
-            { new Piece(Pieces.Rook, Players.Black, (7, 0)), new Piece(Pieces.Cnight, Players.Black, (7, 1)), new Piece(Pieces.Bishop, Players.Black, (7, 2)), new Piece(Pieces.King, Players.Black, (7, 3)), new Piece(Pieces.Queen, Players.Black, (7, 4)), new Piece(Pieces.Bishop, Players.Black, (7, 5)), new Piece(Pieces.Cnight, Players.Black, (7, 6)), new Piece(Pieces.Rook, Players.Black, (7, 7)) }
-        };
+            int[] rows = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 };
+            string[] cols = new string[] { "a", "b", "c", "d", "e", "f", "g", "h" };
+            Pieces?[] pieces = new Pieces?[64];
+            Players?[] players = new Players?[64];
+
+            for (int i = 0; i < 8; i++)
+            {
+                // Second and second-to-last rows respectively
+                pieces[8 + i] = Pieces.P;
+                pieces[48 + i] = Pieces.P;
+
+                // First, second, second-to-last and last rows respectively
+                players[i] = Players.Black;
+                players[8 + i] = Players.Black;
+                players[48 + i] = Players.White;
+                players[56 + i] = Players.White;
+            }
+
+            // First & last rows
+            pieces[0] = pieces[56] = Pieces.R;
+            pieces[1] = pieces[57] = Pieces.N;
+            pieces[2] = pieces[58] = Pieces.B;
+            pieces[3] = pieces[59] = Pieces.Q;
+            pieces[4] = pieces[60] = Pieces.K;
+            pieces[5] = pieces[61] = Pieces.B;
+            pieces[6] = pieces[62] = Pieces.N;
+            pieces[7] = pieces[63] = Pieces.R;
+
+            foreach (int x in rows)
+            {
+                foreach (string y in cols)
+                {
+                    int linearPosition = Array.FindIndex(cols, 0, 8, n => n == y) + 8 * x;
+                    this._board[linearPosition] = new Piece(pieces[linearPosition] ?? Pieces.E, players[linearPosition] ?? Players.Empty, (x, y));
+                }
+            }
+        }
 
         public void Draw()
         {
-            // Drawing house-number horizontal indicators
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("  1   2   3   4   5   6   7   8");
-
-            for (int r = 0; r < 8; r++)
+            int[] rows = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 };
+            string[] cols = new string[] { "a", "b", "c", "d", "e", "f", "g", "h" };
+            void DrawVerticalDivision(bool lineBreak = false, string n = "")
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("\n|---|---|---|---|---|---|---|---|\n|");
+                if (n.Length > 0 && !lineBreak)
+                    Console.Write($"   {n}    ");
 
-                for (int c = 0; c < 8; c++)
-                {
-                    Board.SetColors(this[r, c], r, c);
-                    Console.Write($" {this[r, c]} ");
-                    Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("|");
 
-                    Console.Write("|");
-                }
+                if (lineBreak && n.Length > 0)
+                    Console.Write($"    {n}\n");
+                else if (lineBreak && n.Length == 0)
+                    Console.Write("\n");
 
-                // Drawing house-number vertical indicators
-                Console.Write($"    {r + 1}");
             }
 
-            Console.WriteLine("\n|---|---|---|---|---|---|---|---|\n");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("          a   b   c   d   e   f   g   h\n");
+
+            foreach (int x in rows)
+            {
+                string col = Math.Abs(Array.FindIndex(rows, 0, 8, r => r == x) - 8).ToString();
+                Console.WriteLine("        |---|---|---|---|---|---|---|---|");
+
+                foreach (string y in cols)
+                {
+                    if (y == "a")
+                        DrawVerticalDivision(false, col);
+                    else
+                        DrawVerticalDivision();
+
+                    Piece curr = Array.Find(this._board, p => p.Position == (x, y));
+                    Program.SetConsoleColors(curr);
+                    Console.Write($" {curr} ");
+                    Console.ResetColor();
+                }
+
+                DrawVerticalDivision(true, col);
+            }
+
+            Console.WriteLine("        |---|---|---|---|---|---|---|---|\n\n          a   b   c   d   e   f   g   h\n");
+            Console.ResetColor();
         }
 
-
-        public static void SetColors(Piece p, int row, int col)
+        public Piece GetInput(string prompt, Regex regex, bool allowEmptyHouses, bool markAsSelected = true)
         {
-            // The character color (foreground) depends on owner player
-            // The default background color is white/ black
-            //      however, if the piece is selected, draw it in yellow
-            Console.ForegroundColor = (ConsoleColor)p.Owner;
-            Console.BackgroundColor = row % 2 == 0 ? (col % 2 == 0 ? ConsoleColor.Gray : ConsoleColor.DarkGray) : (col % 2 == 0 ? ConsoleColor.DarkGray : ConsoleColor.Gray);
-            Console.BackgroundColor = p.Selected ? ConsoleColor.Yellow : Console.BackgroundColor;
-        }
+            Piece piece;
 
-        public static bool IsEmpty((int r, int c) coord, Board b) => b[coord.r, coord.c].Owner == Players.Empty;
-
-        public (int, int) GetInput(string prompt, bool allowEmptyHouses = false)
-        {
             while (true)
             {
                 Console.Write(prompt);
-                string rowcol = Console.ReadLine();
-                if (new Regex(@"^[0-9][0-9]$").Matches(rowcol).Count == 0)
+                string input = Console.ReadLine();
+
+                if (regex.Matches(input).Count == 0)
                 {
-                    Console.WriteLine("Please, enter the requested data on the correct format");
+                    Console.WriteLine("Please enter the information on the correct format");
                     continue;
                 }
 
-                char[] rc = rowcol.ToCharArray();
-                (int r, int c) res = (Convert.ToInt32(rc[0].ToString()) - 1, Convert.ToInt32(rc[1].ToString()) - 1);
+                char[] cInput = input.ToCharArray();
+                piece = Array.Find(this._board, p => p.Position == (Math.Abs(Convert.ToInt32(cInput[1].ToString()) - 8), cInput[0].ToString()));
 
-                if(res.r > 7 || res.c > 7 || (!allowEmptyHouses && Board.IsEmpty(res, this)) || (this[res.r, res.c].Owner != Program.Player && this[res.r, res.c].Owner != Players.Empty))
+                if (!allowEmptyHouses && (piece.Owner == Players.Empty || piece.Owner != Program.Player))
                 {
-                    Console.WriteLine("Please, enter the coordinates of a playable house.");
+                    Console.WriteLine("Please, selected a playable piece/ house.");
                     continue;
                 }
 
-                if(!allowEmptyHouses)
-                    this[res.r, res.c].Selected = true;
-
-                return res;
+                piece.Selected = true && markAsSelected;
+                break;
             }
+
+            return piece;
         }
 
-        public void Play((int r, int c) from)
+        public static void CheckAndPlay(Piece from, Piece to)
         {
-            while (true)
+            switch (from.Type)
             {
-                (int r, int c) to = this.GetInput("> Select a house to move the selected piece (in yellow) to in RowCol format: ", true);
-                Piece sel = this[from.r, from.c];
+                case Pieces.P:
+                    break;
 
-                if (!sel.CanMoveTo(to, this))
-                {
-                    Console.WriteLine("Please, enter the coordinates of a house where the piece can land.");
-                    continue;
-                }
+                case Pieces.R:
+                    break;
 
-                sel.Move(to, this);
-                sel.Selected = false;
-                return;
+                case Pieces.N:
+                    break;
+
+                case Pieces.B:
+                    break;
+
+                case Pieces.Q:
+                    break;
+
+                case Pieces.K:
+                    break;
             }
-        }
-
-        public Piece this[int r, int c]
-        {
-            get => this._board[r, c];
-            set => this._board[r, c] = value;
         }
     }
 }
