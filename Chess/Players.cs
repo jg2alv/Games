@@ -4,8 +4,8 @@ namespace Games.Chess
 {
     enum Players
     {
-        White,
-        Black,
-        Empty
+        White = -1,
+        Black = 1,
+        Empty = 0
     }
 }
