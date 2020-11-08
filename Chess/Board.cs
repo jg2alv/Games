@@ -1,17 +1,18 @@
 using System;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace Games.Chess
 {
-    class Board
+    static class Board
     {
         // Default board
-        private Piece[] _board = new Piece[64];
+        private static Piece[] _board = new Piece[64];
 
-        public Board()
+        public static void BuildBoard()
         {
-            int[] rows = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 };
-            string[] cols = new string[] { "a", "b", "c", "d", "e", "f", "g", "h" };
+            if (!Board._board.All(p => p == null)) return;
+
             Pieces?[] pieces = new Pieces?[64];
             Players?[] players = new Players?[64];
 
@@ -38,20 +39,18 @@ namespace Games.Chess
             pieces[6] = pieces[62] = Pieces.N;
             pieces[7] = pieces[63] = Pieces.R;
 
-            foreach (int x in rows)
+            foreach (int x in Program.Rows)
             {
-                foreach (string y in cols)
+                foreach (string y in Program.Cols)
                 {
-                    int linearPosition = Array.FindIndex(cols, 0, 8, n => n == y) + 8 * x;
-                    this._board[linearPosition] = new Piece(pieces[linearPosition] ?? Pieces.E, players[linearPosition] ?? Players.Empty, (x, y));
+                    int linearPosition = Array.FindIndex(Program.Cols, 0, 8, n => n == y) + 8 * x;
+                    Board._board[linearPosition] = new Piece(pieces[linearPosition] ?? Pieces.E, players[linearPosition] ?? Players.Empty, (x, y));
                 }
             }
         }
 
-        public void Draw()
+        public static void Draw()
         {
-            int[] rows = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 };
-            string[] cols = new string[] { "a", "b", "c", "d", "e", "f", "g", "h" };
             void DrawVerticalDivision(bool lineBreak = false, string n = "")
             {
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -70,19 +69,19 @@ namespace Games.Chess
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("          a   b   c   d   e   f   g   h\n");
 
-            foreach (int x in rows)
+            foreach (int x in Program.Rows)
             {
-                string col = Math.Abs(Array.FindIndex(rows, 0, 8, r => r == x) - 8).ToString();
+                string col = Math.Abs(Array.FindIndex(Program.Rows, 0, 8, r => r == x) - 8).ToString();
                 Console.WriteLine("        |---|---|---|---|---|---|---|---|");
 
-                foreach (string y in cols)
+                foreach (string y in Program.Cols)
                 {
                     if (y == "a")
                         DrawVerticalDivision(false, col);
                     else
                         DrawVerticalDivision();
 
-                    Piece curr = Array.Find(this._board, p => p.Position == (x, y));
+                    Piece curr = Array.Find(Board._board, p => p.Position == (x, y));
                     Program.SetConsoleColors(curr);
                     Console.Write($" {curr} ");
                     Console.ResetColor();
@@ -95,7 +94,7 @@ namespace Games.Chess
             Console.ResetColor();
         }
 
-        public Piece GetInput(string prompt, Regex regex, bool allowEmptyHouses, bool markAsSelected = true)
+        public static Piece GetInput(string prompt, Regex regex, bool allowEmptyHouses, bool markAsSelected = true)
         {
             Piece piece;
 
@@ -111,9 +110,9 @@ namespace Games.Chess
                 }
 
                 char[] cInput = input.ToCharArray();
-                piece = Array.Find(this._board, p => p.Position == (Math.Abs(Convert.ToInt32(cInput[1].ToString()) - 8), cInput[0].ToString()));
+                piece = Array.Find(Board._board, p => p.Position == (Math.Abs(Convert.ToInt32(cInput[1].ToString()) - 8), cInput[0].ToString()));
 
-                if (!allowEmptyHouses && (piece.Owner == Players.Empty || piece.Owner != Program.Player))
+                if (!allowEmptyHouses && (piece.Owner == Players.Empty || piece.Owner != Program.Player) || (!allowEmptyHouses && piece.CanGoTo().Length == 0))
                 {
                     Console.WriteLine("Please, selected a playable piece/ house.");
                     continue;
@@ -126,28 +125,21 @@ namespace Games.Chess
             return piece;
         }
 
-        public static void CheckAndPlay(Piece from, Piece to)
+        public static bool Play(Piece from, Piece to)
         {
-            switch (from.Type)
-            {
-                case Pieces.P:
-                    break;
+            if (!from.CanGoTo().Contains(to)) return false;
 
-                case Pieces.R:
-                    break;
+            from.Capture(to);
+            return true;
 
-                case Pieces.N:
-                    break;
-
-                case Pieces.B:
-                    break;
-
-                case Pieces.Q:
-                    break;
-
-                case Pieces.K:
-                    break;
-            }
+            /*
+                from = where you are = isCapturing
+                to = where you're going = wasCaptured
+            */
         }
+
+        public static bool IsEmpty((int x, string y) housePosition) => Array.Exists(Board._board, p => p.Position == housePosition);
+        public static Piece GetPiece((int x, string y) house) => Array.Find(Board._board, p => p.Position == house);
+        public static Players Owner((int x, string y) housePosition) => Array.Find(Board._board, p => p.Position == housePosition).Owner;
     }
 }
