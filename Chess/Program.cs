@@ -29,7 +29,11 @@ namespace Games.Chess
                     Console.WriteLine("Please, selected a playable piece/ house.");
                 }
 
-
+                if(Board.Lost())
+                {
+                    Console.WriteLine($"Game Over!\n({Enum.GetName(typeof(Players), Program.Player).ToUpper()} won)\n");
+                    Environment.Exit(0);
+                }
 
                 Program.Player = Program.Player == Players.White ? Players.Black : Players.White;
                 Console.Clear();
