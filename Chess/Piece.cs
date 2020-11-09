@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Games.Chess
 {
@@ -47,76 +48,108 @@ namespace Games.Chess
 
                 case Pieces.R:
                     int counter = 1;
-                    (int x, string y) nextVerticalHouse,
-                        previousVerticalHouse,
-                        nextHorizontalHouse,
-                        previousHorizontalHouse;
+                    bool previousHouseWasntEmpty = false;
+                    (int x, string y) availableHousePosition;
+                    Piece availableHouse;
 
                     while (true)
                     {
                         try
                         {
-                            nextVerticalHouse = (position.x, Program.Cols[position.y + counter]);
+                            availableHousePosition = (position.x, Program.Cols[position.y + counter]);
+                            availableHouse = Board.GetPiece(availableHousePosition);
+
+                            if (!Board.IsEmpty(availableHousePosition))
+                            {
+                                if(availableHouse.Owner == this.Owner || previousHouseWasntEmpty) break;
+                                previousHouseWasntEmpty = true;
+                            }
+
+                            houses.Add(availableHouse);
                         }
                         catch (Exception)
                         {
                             break;
                         }
 
-                        houses.Add(Board.GetPiece(nextVerticalHouse));
-                        if (!Board.IsEmpty(nextVerticalHouse)) break;
-
                         counter++;
                     }
 
                     counter = 1;
+                    availableHousePosition = (0, "");
+                    availableHouse = null;
+                    previousHouseWasntEmpty = false;
 
                     while (true)
                     {
                         try
                         {
-                            previousVerticalHouse = (position.x, Program.Cols[position.y - counter]);
+                            availableHousePosition = (position.x, Program.Cols[position.y - counter]);
+                            availableHouse = Board.GetPiece(availableHousePosition);
+
+                            if (!Board.IsEmpty(availableHousePosition))
+                            {
+                                if(availableHouse.Owner == this.Owner || previousHouseWasntEmpty) break;
+                                previousHouseWasntEmpty = true;
+                            }
+
+                            houses.Add(availableHouse);
                         }
                         catch (Exception)
                         {
                             break;
                         }
 
-                        houses.Add(Board.GetPiece(previousVerticalHouse));
-                        if (!Board.IsEmpty(previousVerticalHouse)) break;
-
                         counter++;
                     }
 
                     counter = 1;
+                    availableHousePosition = (0, "");
+                    availableHouse = null;
+                    previousHouseWasntEmpty = false;
 
                     while (true)
                     {
                         try
                         {
-                            nextHorizontalHouse = (position.x + counter, Program.Cols[position.y]);
-                            houses.Add(Board.GetPiece(nextHorizontalHouse));
+                            availableHousePosition = (position.x + counter, Program.Cols[position.y]);
+                            availableHouse = Board.GetPiece(availableHousePosition);
+
+                            if (!Board.IsEmpty(availableHousePosition))
+                            {
+                                if(availableHouse.Owner == this.Owner || previousHouseWasntEmpty) break;
+                                previousHouseWasntEmpty = true;
+                            }
+
+                            houses.Add(availableHouse);
+                        }
+                        catch (Exception)
+                        {
+                            break;
+                        }
+
+                        counter++;
+                    }
+
+                    counter = 1;
+                    availableHousePosition = (0, "");
+                    availableHouse = null;
+                    previousHouseWasntEmpty = false;
+
+                    while (true)
+                    {
+                        try
+                        {
+                            availableHousePosition = (position.x - counter, Program.Cols[position.y]);
+                            availableHouse = Board.GetPiece(availableHousePosition);
+
+                            if (!Board.IsEmpty(availableHousePosition))
+                            {
+                                if(availableHouse.Owner == this.Owner || previousHouseWasntEmpty) break;
+                                previousHouseWasntEmpty = true;
+                            }
                             
-                            if (!Board.IsEmpty(nextHorizontalHouse)) break;
-                        }
-                        catch (Exception)
-                        {
-                            break;
-                        }
-
-                        counter++;
-                    }
-
-                    counter = 1;
-
-                    while (true)
-                    {
-                        try
-                        {
-                            previousHorizontalHouse = (position.x - counter, Program.Cols[position.y]);
-                            houses.Add(Board.GetPiece(previousHorizontalHouse));
-
-                            if (!Board.IsEmpty(previousHorizontalHouse)) break;
+                            houses.Add(availableHouse);
                         }
                         catch (Exception)
                         {
@@ -141,7 +174,7 @@ namespace Games.Chess
                     break;
             }
 
-            return houses.ToArray();
+            return houses.FindAll(p => p is Piece).ToArray();
         }
 
         public void Capture(Piece captured)

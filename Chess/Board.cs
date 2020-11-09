@@ -131,11 +131,6 @@ namespace Games.Chess
 
             from.Capture(to);
             return true;
-
-            /*
-                from = where you are = isCapturing
-                to = where you're going = wasCaptured
-            */
         }
 
         public static bool IsEmpty((int x, string y) housePosition) => Array.Find(Board._board, p => p.Position == housePosition).Owner == Players.Empty;
