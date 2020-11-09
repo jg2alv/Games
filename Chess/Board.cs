@@ -138,7 +138,7 @@ namespace Games.Chess
             */
         }
 
-        public static bool IsEmpty((int x, string y) housePosition) => Array.Exists(Board._board, p => p.Position == housePosition);
+        public static bool IsEmpty((int x, string y) housePosition) => Array.Find(Board._board, p => p.Position == housePosition).Owner == Players.Empty;
         public static Piece GetPiece((int x, string y) house) => Array.Find(Board._board, p => p.Position == house);
         public static Players Owner((int x, string y) housePosition) => Array.Find(Board._board, p => p.Position == housePosition).Owner;
     }

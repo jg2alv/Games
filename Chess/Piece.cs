@@ -30,20 +30,102 @@ namespace Games.Chess
                 case Pieces.P:
                     // Checking house ahead & both diagonals
                     (int x, string y) nextHouse = (position.x + unit, Program.Cols[position.y]);
-                    (int x, string y)[] nextDiagonalHouse = position.y == 0 ? new (int x, string y)[] { (position.x + unit, Program.Cols[position.y + 1]) } : position.y == 7 ? new (int x, string y)[] { (position.x + unit, Program.Cols[position.y - 1]) } : new (int x, string y)[] { (position.x + unit, Program.Cols[position.y + 1]), (position.x + unit, Program.Cols[position.y - 1]) };
+                    (int x, string y)[] nextDiagonalHouses = position.y == 0 ? new (int x, string y)[] { (position.x + unit, Program.Cols[position.y + 1]) } : position.y == 7 ? new (int x, string y)[] { (position.x + unit, Program.Cols[position.y - 1]) } : new (int x, string y)[] { (position.x + unit, Program.Cols[position.y + 1]), (position.x + unit, Program.Cols[position.y - 1]) };
 
+                    // The pawn can go forward only if the next house is empty
                     if (Board.IsEmpty(nextHouse))
                         houses.Add(Board.GetPiece(nextHouse));
 
-                    foreach ((int x, string y) _nextDiagonalHouse in nextDiagonalHouse)
+                    foreach ((int x, string y) nextDiagonalHouse in nextDiagonalHouses)
                     {
-                        if (Board.Owner(_nextDiagonalHouse) == this.Owner || Board.Owner(_nextDiagonalHouse) == Players.Empty) continue;
-                        houses.Add(Board.GetPiece(_nextDiagonalHouse));
+                        // The pawn can only go diagonally if there's an "enemy piece"
+                        if (Board.Owner(nextDiagonalHouse) == this.Owner || Board.Owner(nextDiagonalHouse) == Players.Empty) continue;
+                        houses.Add(Board.GetPiece(nextDiagonalHouse));
                     }
 
                     break;
 
                 case Pieces.R:
+                    int counter = 1;
+                    (int x, string y) nextVerticalHouse,
+                        previousVerticalHouse,
+                        nextHorizontalHouse,
+                        previousHorizontalHouse;
+
+                    while (true)
+                    {
+                        try
+                        {
+                            nextVerticalHouse = (position.x, Program.Cols[position.y + counter]);
+                        }
+                        catch (Exception)
+                        {
+                            break;
+                        }
+
+                        houses.Add(Board.GetPiece(nextVerticalHouse));
+                        if (!Board.IsEmpty(nextVerticalHouse)) break;
+
+                        counter++;
+                    }
+
+                    counter = 1;
+
+                    while (true)
+                    {
+                        try
+                        {
+                            previousVerticalHouse = (position.x, Program.Cols[position.y - counter]);
+                        }
+                        catch (Exception)
+                        {
+                            break;
+                        }
+
+                        houses.Add(Board.GetPiece(previousVerticalHouse));
+                        if (!Board.IsEmpty(previousVerticalHouse)) break;
+
+                        counter++;
+                    }
+
+                    counter = 1;
+
+                    while (true)
+                    {
+                        try
+                        {
+                            nextHorizontalHouse = (position.x + counter, Program.Cols[position.y]);
+                            houses.Add(Board.GetPiece(nextHorizontalHouse));
+                            
+                            if (!Board.IsEmpty(nextHorizontalHouse)) break;
+                        }
+                        catch (Exception)
+                        {
+                            break;
+                        }
+
+                        counter++;
+                    }
+
+                    counter = 1;
+
+                    while (true)
+                    {
+                        try
+                        {
+                            previousHorizontalHouse = (position.x - counter, Program.Cols[position.y]);
+                            houses.Add(Board.GetPiece(previousHorizontalHouse));
+
+                            if (!Board.IsEmpty(previousHorizontalHouse)) break;
+                        }
+                        catch (Exception)
+                        {
+                            break;
+                        }
+
+                        counter++;
+                    }
+
                     break;
 
                 case Pieces.N:
