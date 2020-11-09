@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Games.Chess
 {
@@ -22,9 +22,246 @@ namespace Games.Chess
 
         public Piece[] CanGoTo()
         {
+            Piece availableHouse;
             List<Piece> houses = new List<Piece>();
+            (int x, string y) availableHousePosition;
             (int x, int y) position = (this.Position.x, Array.FindIndex(Program.Cols, 0, 8, l => l == this.Position.y));
             int unit = (int)this.Owner;
+            void Rook()
+            {
+                int counter = 1;
+                bool previousHouseWasntEmpty = false;
+
+                // Same row, going to the right on columns
+                while (true)
+                {
+                    try
+                    {
+                        availableHousePosition = (position.x, Program.Cols[position.y + counter]);
+                        availableHouse = Board.GetPiece(availableHousePosition);
+
+                        if (!Board.IsEmpty(availableHousePosition))
+                        {
+                            if (availableHouse.Owner == this.Owner || previousHouseWasntEmpty) break;
+                            previousHouseWasntEmpty = true;
+                        }
+
+                        houses.Add(availableHouse);
+                    }
+                    catch (Exception)
+                    {
+                        break;
+                    }
+
+                    counter++;
+                }
+
+                counter = 1;
+                availableHousePosition = (0, "");
+                availableHouse = null;
+                previousHouseWasntEmpty = false;
+
+                // Same row, going to the left on columns
+                while (true)
+                {
+                    try
+                    {
+                        availableHousePosition = (position.x, Program.Cols[position.y - counter]);
+                        availableHouse = Board.GetPiece(availableHousePosition);
+
+                        if (!Board.IsEmpty(availableHousePosition))
+                        {
+                            if (availableHouse.Owner == this.Owner || previousHouseWasntEmpty) break;
+                            previousHouseWasntEmpty = true;
+                        }
+
+                        houses.Add(availableHouse);
+                    }
+                    catch (Exception)
+                    {
+                        break;
+                    }
+
+                    counter++;
+                }
+
+                counter = 1;
+                availableHousePosition = (0, "");
+                availableHouse = null;
+                previousHouseWasntEmpty = false;
+
+                // Going to the bottom on rows, same column
+                while (true)
+                {
+                    try
+                    {
+                        availableHousePosition = (position.x + counter, Program.Cols[position.y]);
+                        availableHouse = Board.GetPiece(availableHousePosition);
+
+                        if (!Board.IsEmpty(availableHousePosition))
+                        {
+                            if (availableHouse.Owner == this.Owner || previousHouseWasntEmpty) break;
+                            previousHouseWasntEmpty = true;
+                        }
+
+                        houses.Add(availableHouse);
+                    }
+                    catch (Exception)
+                    {
+                        break;
+                    }
+
+                    counter++;
+                }
+
+                counter = 1;
+                availableHousePosition = (0, "");
+                availableHouse = null;
+                previousHouseWasntEmpty = false;
+
+                // Going to the top on rows, same column
+                while (true)
+                {
+                    try
+                    {
+                        availableHousePosition = (position.x - counter, Program.Cols[position.y]);
+                        availableHouse = Board.GetPiece(availableHousePosition);
+
+                        if (!Board.IsEmpty(availableHousePosition))
+                        {
+                            if (availableHouse.Owner == this.Owner || previousHouseWasntEmpty) break;
+                            previousHouseWasntEmpty = true;
+                        }
+
+                        houses.Add(availableHouse);
+                    }
+                    catch (Exception)
+                    {
+                        break;
+                    }
+
+                    counter++;
+                }
+
+            };
+
+            void Bishop()
+            {
+                int counter = 1;
+                bool previousHouseWasntEmpty = false;
+
+                // Upper left diagonal
+                while (true)
+                {
+                    try
+                    {
+                        availableHousePosition = (position.x - counter, Program.Cols[position.y - counter]);
+                        availableHouse = Board.GetPiece(availableHousePosition);
+
+                        if (!Board.IsEmpty(availableHousePosition))
+                        {
+                            if (availableHouse.Owner == this.Owner || previousHouseWasntEmpty) break;
+                            previousHouseWasntEmpty = true;
+                        }
+
+                        houses.Add(availableHouse);
+                    }
+                    catch (Exception)
+                    {
+                        break;
+                    }
+
+                    counter++;
+                }
+
+                counter = 1;
+                availableHousePosition = (0, "");
+                availableHouse = null;
+                previousHouseWasntEmpty = false;
+
+                // Lower left diagonal
+                while (true)
+                {
+                    try
+                    {
+                        availableHousePosition = (position.x + counter, Program.Cols[position.y - counter]);
+                        availableHouse = Board.GetPiece(availableHousePosition);
+
+                        if (!Board.IsEmpty(availableHousePosition))
+                        {
+                            if (availableHouse.Owner == this.Owner || previousHouseWasntEmpty) break;
+                            previousHouseWasntEmpty = true;
+                        }
+
+                        houses.Add(availableHouse);
+                    }
+                    catch (Exception)
+                    {
+                        break;
+                    }
+
+                    counter++;
+                }
+
+                counter = 1;
+                availableHousePosition = (0, "");
+                availableHouse = null;
+                previousHouseWasntEmpty = false;
+
+                // Upper right diagonal
+                while (true)
+                {
+                    try
+                    {
+                        availableHousePosition = (position.x - counter, Program.Cols[position.y + counter]);
+                        availableHouse = Board.GetPiece(availableHousePosition);
+
+                        if (!Board.IsEmpty(availableHousePosition))
+                        {
+                            if (availableHouse.Owner == this.Owner || previousHouseWasntEmpty) break;
+                            previousHouseWasntEmpty = true;
+                        }
+
+                        houses.Add(availableHouse);
+                    }
+                    catch (Exception)
+                    {
+                        break;
+                    }
+
+                    counter++;
+                }
+
+                counter = 1;
+                availableHousePosition = (0, "");
+                availableHouse = null;
+                previousHouseWasntEmpty = false;
+
+                // Lower right diagonal
+                while (true)
+                {
+                    try
+                    {
+                        availableHousePosition = (position.x + counter, Program.Cols[position.y + counter]);
+                        availableHouse = Board.GetPiece(availableHousePosition);
+
+                        if (!Board.IsEmpty(availableHousePosition))
+                        {
+                            if (availableHouse.Owner == this.Owner || previousHouseWasntEmpty) break;
+                            previousHouseWasntEmpty = true;
+                        }
+
+                        houses.Add(availableHouse);
+                    }
+                    catch (Exception)
+                    {
+                        break;
+                    }
+
+                    counter++;
+                }
+            };
+
 
             switch (this.Type)
             {
@@ -40,141 +277,59 @@ namespace Games.Chess
                     foreach ((int x, string y) nextDiagonalHouse in nextDiagonalHouses)
                     {
                         // The pawn can only go diagonally if there's an "enemy piece"
-                        if (Board.Owner(nextDiagonalHouse) == this.Owner || Board.Owner(nextDiagonalHouse) == Players.Empty) continue;
+                        if (Board.GetPiece(nextDiagonalHouse).Owner == this.Owner || Board.GetPiece(nextDiagonalHouse).Owner == Players.Empty) continue;
                         houses.Add(Board.GetPiece(nextDiagonalHouse));
                     }
 
                     break;
 
                 case Pieces.R:
-                    int counter = 1;
-                    bool previousHouseWasntEmpty = false;
-                    (int x, string y) availableHousePosition;
-                    Piece availableHouse;
-
-                    while (true)
-                    {
-                        try
-                        {
-                            availableHousePosition = (position.x, Program.Cols[position.y + counter]);
-                            availableHouse = Board.GetPiece(availableHousePosition);
-
-                            if (!Board.IsEmpty(availableHousePosition))
-                            {
-                                if(availableHouse.Owner == this.Owner || previousHouseWasntEmpty) break;
-                                previousHouseWasntEmpty = true;
-                            }
-
-                            houses.Add(availableHouse);
-                        }
-                        catch (Exception)
-                        {
-                            break;
-                        }
-
-                        counter++;
-                    }
-
-                    counter = 1;
-                    availableHousePosition = (0, "");
-                    availableHouse = null;
-                    previousHouseWasntEmpty = false;
-
-                    while (true)
-                    {
-                        try
-                        {
-                            availableHousePosition = (position.x, Program.Cols[position.y - counter]);
-                            availableHouse = Board.GetPiece(availableHousePosition);
-
-                            if (!Board.IsEmpty(availableHousePosition))
-                            {
-                                if(availableHouse.Owner == this.Owner || previousHouseWasntEmpty) break;
-                                previousHouseWasntEmpty = true;
-                            }
-
-                            houses.Add(availableHouse);
-                        }
-                        catch (Exception)
-                        {
-                            break;
-                        }
-
-                        counter++;
-                    }
-
-                    counter = 1;
-                    availableHousePosition = (0, "");
-                    availableHouse = null;
-                    previousHouseWasntEmpty = false;
-
-                    while (true)
-                    {
-                        try
-                        {
-                            availableHousePosition = (position.x + counter, Program.Cols[position.y]);
-                            availableHouse = Board.GetPiece(availableHousePosition);
-
-                            if (!Board.IsEmpty(availableHousePosition))
-                            {
-                                if(availableHouse.Owner == this.Owner || previousHouseWasntEmpty) break;
-                                previousHouseWasntEmpty = true;
-                            }
-
-                            houses.Add(availableHouse);
-                        }
-                        catch (Exception)
-                        {
-                            break;
-                        }
-
-                        counter++;
-                    }
-
-                    counter = 1;
-                    availableHousePosition = (0, "");
-                    availableHouse = null;
-                    previousHouseWasntEmpty = false;
-
-                    while (true)
-                    {
-                        try
-                        {
-                            availableHousePosition = (position.x - counter, Program.Cols[position.y]);
-                            availableHouse = Board.GetPiece(availableHousePosition);
-
-                            if (!Board.IsEmpty(availableHousePosition))
-                            {
-                                if(availableHouse.Owner == this.Owner || previousHouseWasntEmpty) break;
-                                previousHouseWasntEmpty = true;
-                            }
-                            
-                            houses.Add(availableHouse);
-                        }
-                        catch (Exception)
-                        {
-                            break;
-                        }
-
-                        counter++;
-                    }
-
+                    Rook();
                     break;
 
                 case Pieces.N:
+                    (int x, int y)[] positions = new (int x, int y)[]
+                    {
+                        (2, -1), // Northwest
+                        (2, 1), // Northeast
+                        (1, -2), // "Eastnorth"
+                        (-1, -2), // "Eastsouth"
+                        (1, 2), // "Westnorth"
+                        (-1, 2), // "Westsouth"
+                        (-2, -1), // Southwest
+                        (-2, 1) // Southeast
+                    };
+
+                    foreach ((int x, int y) pos in positions)
+                    {
+                        try
+                        {
+                            availableHousePosition = (position.x + pos.x, Program.Cols[position.y + pos.y]);
+                            availableHouse = Board.GetPiece(availableHousePosition);
+
+                            if (availableHouse.Owner == this.Owner) continue;
+                            houses.Add(availableHouse);
+                        }
+                        catch (Exception)
+                        { }
+                    }
+
                     break;
 
                 case Pieces.B:
+                    Bishop();
                     break;
 
                 case Pieces.Q:
+                    Rook();
+                    Bishop();
                     break;
 
                 case Pieces.K:
                     break;
             }
 
-            return houses.FindAll(p => p is Piece).ToArray();
+            return houses.FindAll(p => p is Piece).Distinct().ToArray();
         }
 
         public void Capture(Piece captured)
