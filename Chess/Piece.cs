@@ -26,6 +26,7 @@ namespace Games.Chess
             List<Piece> houses = new List<Piece>();
             (int x, string y) availableHousePosition;
             (int x, int y) position = (this.Position.x, Array.FindIndex(Program.Cols, 0, 8, l => l == this.Position.y));
+            (int x, int y)[] positions;
             int unit = (int)this.Owner;
             void Rook()
             {
@@ -288,16 +289,16 @@ namespace Games.Chess
                     break;
 
                 case Pieces.N:
-                    (int x, int y)[] positions = new (int x, int y)[]
+                    positions = new (int x, int y)[]
                     {
-                        (2, -1), // Northwest
-                        (2, 1), // Northeast
-                        (1, -2), // "Eastnorth"
-                        (-1, -2), // "Eastsouth"
-                        (1, 2), // "Westnorth"
-                        (-1, 2), // "Westsouth"
-                        (-2, -1), // Southwest
-                        (-2, 1) // Southeast
+                        (2, -1), // Top left
+                        (2, 1), // Top right
+                        (1, -2), // Left top
+                        (-1, -2), // Left bottom
+                        (1, 2), // Right top
+                        (-1, 2), // Right bottom
+                        (-2, -1), // Bottom left
+                        (-2, 1) // Bottom right
                     };
 
                     foreach ((int x, int y) pos in positions)
@@ -326,6 +327,32 @@ namespace Games.Chess
                     break;
 
                 case Pieces.K:
+                    positions = new (int x, int y)[]
+                    {
+                        (1, -1), // Top left
+                        (1, 0), // Top middle
+                        (1, 1), // Top right
+                        (0, -1), // Left middle
+                        (0, 1), // Right middle
+                        (-1, -1), // Bottom left
+                        (-1, 0), // Bottom middle
+                        (-1, 1) // Bottom right
+                    };
+
+                    foreach ((int x, int y) pos in positions)
+                    {
+                        try
+                        {
+                            availableHousePosition = (position.x + pos.x, Program.Cols[position.y + pos.y]);
+                            availableHouse = Board.GetPiece(availableHousePosition);
+
+                            if (availableHouse.Owner == this.Owner) continue;
+                            houses.Add(availableHouse);
+                        }
+                        catch (Exception)
+                        { }
+                    }
+
                     break;
             }
 
